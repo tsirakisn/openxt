@@ -133,6 +133,12 @@ build_image() {
     if [ -d ${SOURCE_EXTRAS} ]; then
         $RSYNC ${SOURCE_EXTRAS}/ ${TARGET}/${REAL_NAME}
     fi
+
+    # Transfer installer EFI files
+    if [ -f tmp-glibc/deploy/images/${MACHINE}/grubx64.efi ]; then
+        $RSYNC tmp-glibc/deploy/images/${MACHINE}/grubx64.efi ${TARGET}/raw/
+        $RSYNC tmp-glibc/deploy/images/${MACHINE}/isohdpfx.bin ${TARGET}/raw/
+    fi
 }
 
 collect_packages() {

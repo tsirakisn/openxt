@@ -397,16 +397,16 @@ do_oe_installer_copy()
 
         mkdir -p "$OUTPUT_DIR/$NAME/raw/installer"
         # Copy installer
-        cp "$binaries/$machine/xenclient-installer-image-xenclient-dom0.cpio.gz" "$OUTPUT_DIR/$NAME/raw/installer/rootfs.i686.cpio.gz"
+        cp "$binaries/$machine/xenclient-installer-image-openxt-installer.cpio.gz" "$OUTPUT_DIR/$NAME/raw/installer/rootfs.i686.cpio.gz"
 
         # Copy extra installer files
         rm -rf "$OUTPUT_DIR/$NAME/raw/installer/iso"
-        cp -r "$binaries/$machine/xenclient-installer-image-xenclient-dom0/iso" \
+        cp -r "$binaries/$machine/xenclient-installer-image-openxt-installer/iso" \
                 "$OUTPUT_DIR/$NAME/raw/installer/iso"
         rm -rf "$OUTPUT_DIR/$NAME/raw/installer/netboot"
-        cp -r "$binaries/$machine/xenclient-installer-image-xenclient-dom0/netboot" \
+        cp -r "$binaries/$machine/xenclient-installer-image-openxt-installer/netboot" \
                 "$OUTPUT_DIR/$NAME/raw/installer/netboot"
-        cp "$binaries/$machine/bzImage-xenclient-dom0.bin" \
+        cp "$binaries/$machine/bzImage-openxt-installer.bin" \
                 "$OUTPUT_DIR/$NAME/raw/installer/vmlinuz"
         cp "$binaries/$machine/xen.gz" \
                 "$OUTPUT_DIR/$NAME/raw/installer/xen.gz"
@@ -418,6 +418,9 @@ do_oe_installer_copy()
                 "$OUTPUT_DIR/$NAME/raw/installer/"
         cp "$binaries/$machine"/microcode_intel.bin \
                 "$OUTPUT_DIR/$NAME/raw/installer"
+        cp "$binaries/$machine/grubx64.efi $OUTPUT_DIR/$NAME/raw/"
+        cp "$binaries/$machine/isohdpfx.bin $OUTPUT_DIR/$NAME/raw/"
+
         popd
 }
 
@@ -425,8 +428,8 @@ do_oe_installer()
 {
         local path="$1"
 
-        do_oe "$path" "xenclient-dom0" "xenclient-installer-image"
-        do_oe_installer_copy $path "xenclient-dom0"
+        do_oe "$path" "openxt-installer" "xenclient-installer-image"
+        do_oe_installer_copy $path "openxt-installer"
 }
 
 do_oe_installer_part2_copy()
@@ -438,7 +441,7 @@ do_oe_installer_part2_copy()
 
         mkdir -p "$OUTPUT_DIR/$NAME/raw"
 
-        cp "$binaries/$machine/xenclient-installer-part2-image-xenclient-dom0.tar.bz2" "$OUTPUT_DIR/$NAME/raw/control.tar.bz2"
+        cp "$binaries/$machine/xenclient-installer-part2-image-openxt-installer.tar.bz2" "$OUTPUT_DIR/$NAME/raw/control.tar.bz2"
 
         popd
 }
@@ -447,8 +450,8 @@ do_oe_installer_part2()
 {
         local path="$1"
 
-        do_oe "$path" "xenclient-dom0" "xenclient-installer-part2-image"
-        do_oe_installer_part2_copy $path "xenclient-dom0"
+        do_oe "$path" "openxt-installer" "xenclient-installer-part2-image"
+        do_oe_installer_part2_copy $path "openxt-installer"
 }
 
 do_oe_source_shrink()
@@ -926,7 +929,7 @@ generic_do_installer_iso()
         cp -r "$repository/"* "$iso_path"
 
         echo "  - create iso"
-        "${CMD_DIR}/do_installer_iso.sh" "$iso_path" "$iso_path.iso" "$OPENXT_ISO_LABEL"
+        "${CMD_DIR}/do_installer_iso.sh" "$iso_path" "$iso_path.iso" "$OPENXT_ISO_LABEL" "$path/isohdpfx.bin"
 
         rm -rf "$iso_path"
 
