@@ -59,12 +59,12 @@ cd $BUILD_DIR
 KERNEL_VERSION=`ls /lib/modules | tail -1`
 
 rm -rf pv-linux-drivers
-rm -rf v4v
+rm -rf linux-xen-argo
 git clone -b $BRANCH $GIT_MIRROR/pv-linux-drivers.git
-git clone -b $BRANCH $GIT_MIRROR/v4v.git
+git clone -b $BRANCH $GIT_MIRROR/linux-xen-argo.git
 
 # Build the dkms tools
-for i in pv-linux-drivers/openxt-{vusb,xenmou} v4v/v4v; do
+for i in pv-linux-drivers/openxt-{vusb,xenmou} linux-xen-argo/argo-linux; do
     tool=`basename $i`
 
     # Remove package
@@ -84,14 +84,14 @@ done
 
 # Build the binary tools
 # Note: only building for 64 bits target. Building for 32 bits requires a chroot
-rm -rf repo/SOURCES/libv4v* libv4v-1.0
-mkdir -p repo/SOURCES libv4v-1.0
-cp -ar v4v/libv4v/* libv4v-1.0
-cp -ar v4v/v4v/include/linux v4v/v4v/include/xen libv4v-1.0/src
-tar cjf repo/SOURCES/libv4v.tar.gz libv4v-1.0
-rpmbuild --target=x86_64 --noclean --define="_topdir `pwd`/repo" -bb -v v4v/libv4v/libv4v.spec
+rm -rf repo/SOURCES/libargo* libargo-1.0
+mkdir -p repo/SOURCES libargo-1.0
+cp -ar linux-xen-argo/libargo/* libargo-1.0
+cp -ar linux-xen-argo/argo-linux/include/linux linux-xen-argo/argo-linux/include/xen libargo-1.0/src
+tar cjf repo/SOURCES/libargo.tar.gz libargo-1.0
+rpmbuild --target=x86_64 --noclean --define="_topdir `pwd`/repo" -bb -v linux-xen-argo/libargo/libargo.spec
 # The following succeeds but actually builds 64 bits binaries...
-#setarch i686 rpmbuild --target=i686 --noclean --define="_topdir `pwd`" -bb -v v4v/libv4v/libv4v.spec
+#setarch i686 rpmbuild --target=i686 --noclean --define="_topdir `pwd`" -bb -v linux-xen-argo/libargo/libargo.spec
 
 # Build syncxt
 rm -rf openxt

@@ -42,11 +42,11 @@ make_bundle_xctools()
     cp -rTf ${BUILD_SCRIPTS}/pkg-xctools/control ${deb_control}
     cp -rTf ${BUILD_SCRIPTS}/pkg-xctools/data ${deb_data}
 
-    # libv4v
+    # libargo
     mkdir -p git-tmp
-    git_clone "git-tmp" "${OPENXT_GIT_PROTOCOL}://${OPENXT_GIT_MIRROR}/v4v.git" "${BRANCH}" "$ALLOW_SWITCH_BRANCH_FAIL"
-    cp -rT git-tmp/libv4v ${deb_data}/usr/src/libv4v-1.0
-    mkdir -p ${deb_data}/usr/src/libv4v-1.0/src/linux/ && cp git-tmp/v4v/linux/v4v_dev.h ${deb_data}/usr/src/libv4v-1.0/src/linux/
+    git_clone "git-tmp" "${OPENXT_GIT_PROTOCOL}://${OPENXT_GIT_MIRROR}/linux-xen-argo.git" "${BRANCH}" "$ALLOW_SWITCH_BRANCH_FAIL"
+    cp -rT git-tmp/libargo ${deb_data}/usr/src/libargo-1.0
+    mkdir -p ${deb_data}/usr/src/libargo-1.0/src/linux/ && cp git-tmp/argo-linux/include/linux/argo_dev.h ${deb_data}/usr/src/libargo-1.0/src/linux/
     rm -rf git-tmp
 
     # pv-linux-drivers
@@ -54,7 +54,7 @@ make_bundle_xctools()
     rm -rf $PTMP_DIR
     mkdir -p $PTMP_DIR
     git_clone $PTMP_DIR "${OPENXT_GIT_PROTOCOL}://${OPENXT_GIT_MIRROR}/pv-linux-drivers.git" "${BRANCH}" "$ALLOW_SWITCH_BRANCH_FAIL"
-    for pvd in "v4v" "xenmou" "vusb"
+    for pvd in "argo" "xenmou" "vusb"
     do
         make_bundle_pv_drivers $pvd $PTMP_DIR $deb_data 
     done

@@ -5,8 +5,8 @@ set -e
 cd `dirname $0`
 
 VERSION=%VERSION%
-DKMS_PACKAGES="openxt-v4v openxt-vusb openxt-xenmou"
-OTHER_PACKAGES="libv4v"
+DKMS_PACKAGES="openxt-argo openxt-vusb openxt-xenmou"
+OTHER_PACKAGES="libargo"
 
 ARCH=`uname -i`
 
@@ -51,7 +51,7 @@ for pkg in `yum list installed | cut -d '.' -f 1 | grep "^openxt-"`; do
     rm -rf /usr/src/${pkg}-1.0
 done
 # Others
-for pkg in libv4v; do
+for pkg in libargo; do
     if [ `yum list installed | cut -d '.' -f 1 | grep "^${pkg}$"` ]; then
         yum -y -t remove $pkg
     fi

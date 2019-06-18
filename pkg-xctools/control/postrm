@@ -20,15 +20,15 @@ else
     locallib=/usr/local/lib
 fi
 
-if [ -f ${inc}/linux/v4v_dev.h ]; then
-    # dkms cleans v4v-dkms, except postinst (make install)
-    rm -rf ${inc}/linux/v4v_dev.h ${inc}/xen/v4v.h ${src}/v4v-dkms-1.0
+if [ -f ${inc}/linux/argo_dev.h ]; then
+    # dkms cleans argo-dkms, except postinst (make install)
+    rm -rf ${inc}/linux/argo_dev.h ${inc}/xen/argo.h ${src}/argo-dkms-1.0
 
-    # libv4v is post-installed. Which means ...
-    rm -rf ${src}/libv4v-1.0 ${lib}/libv4v{,_nointerposer}.{la,so,a} \
-           ${lib}/libv4v{,_nointerposer}-1.0* ${lib}/pkgconfig/libv4v.pc \
-           ${bin}/libv4v-config ${bin}/ttcp-v4v ${bin}/v4v-proxy ${bin}/viptables \
-           ${inc}/libv4v.h
+    # libargo is post-installed. Which means ...
+    rm -rf ${src}/libargo-1.0 ${lib}/libargo{,_nointerposer}.{la,so,a} \
+           ${lib}/libargo{,_nointerposer}-1.0* ${lib}/pkgconfig/libargo.pc \
+           ${bin}/libargo-config ${bin}/ttcp-argo ${bin}/argo-proxy ${bin}/viptables \
+           ${inc}/libargo.h
 fi
 
 

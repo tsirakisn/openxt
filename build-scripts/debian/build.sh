@@ -40,20 +40,20 @@ rm -rf $BUILD_DIR
 mkdir $BUILD_DIR
 cd $BUILD_DIR
 git clone -b $BRANCH $GIT_MIRROR/pv-linux-drivers.git
-git clone -b $BRANCH $GIT_MIRROR/v4v.git
+git clone -b $BRANCH $GIT_MIRROR/linux-xen-argo.git
 git clone -b $BRANCH $GIT_MIRROR/xctools.git
-cp -r v4v/v4v/include/linux v4v/libv4v/src/
-cp -r v4v/v4v/include/xen v4v/libv4v/src/
+cp -r linux-xen-argo/argo-linux/include/linux linux-xen-argo/libargo/src/
+cp -r linux-xen-argo/argo-linux/include/xen linux-xen-argo/libargo/src/
 mkdir all
 cd all
-for tool in ../pv-linux-drivers/openxt-{vusb,xenmou} ../v4v/v4v; do
+for tool in ../pv-linux-drivers/openxt-{vusb,xenmou} ../linux-xen-argo/argo-linux; do
     # Debian wants all directories to include a version number
     mv ${tool} ${tool}-1.0
     $SBUILD --dist=wheezy --arch-all ${tool}-1.0
 done
-mv ../v4v/libv4v ../v4v/libv4v-1.0
-$SBUILD --dist=wheezy --arch=i386  ../v4v/libv4v-1.0
-$SBUILD --dist=wheezy --arch=amd64 ../v4v/libv4v-1.0
+mv ../linux-xen-argo/libargo ../linux-xen-argo/libargo-1.0
+$SBUILD --dist=wheezy --arch=i386  ../linux-xen-argo/libargo-1.0
+$SBUILD --dist=wheezy --arch=amd64 ../linux-xen-argo/libargo-1.0
 cd - >/dev/null
 mkdir wheezy
 cd wheezy

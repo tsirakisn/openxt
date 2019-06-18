@@ -7,8 +7,8 @@ set -e
 cd `dirname $0`
 
 VERSION=%VERSION%
-DKMS_PACKAGES="v4v-dkms openxt-vusb-dkms openxt-xenmou-dkms"
-OTHER_PACKAGES="libv4v"
+DKMS_PACKAGES="argo-dkms openxt-vusb-dkms openxt-xenmou-dkms"
+OTHER_PACKAGES="libargo"
 
 DEBIAN_NAME=jessie
 DEBIAN_VERSION=`cut -d '.' -f 1 /etc/debian_version 2>/dev/null || true`
@@ -16,11 +16,11 @@ DEBIAN_VERSION=`cut -d '.' -f 1 /etc/debian_version 2>/dev/null || true`
 
 echo "Removing old tools..."
 # Kernel modules
-for pkg in `dpkg -l | awk '{print $2}' | grep "^openxt-.*-dkms$\|^v4v-dkms$"`; do
+for pkg in `dpkg -l | awk '{print $2}' | grep "^openxt-.*-dkms$\|^argo-dkms$"`; do
     apt-get -y remove --purge $pkg
 done
 # Others
-for pkg in libv4v; do
+for pkg in libargo; do
     if [ `dpkg -l | awk '{print $2}' | grep "^${pkg}$"` ]; then
         apt-get -y remove $pkg
     fi
